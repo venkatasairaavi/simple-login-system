@@ -6,6 +6,24 @@
     <title>Home page</title>
 </head>
 <body>
-    <h1>This is the Home Page</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <br>
+
+    <h1>Welcome to the Home Page!</h1>
+    {% if session['user_id'] %}
+        <p>You are logged in</p>
+    {% else %}
+        <p>Please <a href="{{ url_for('login') }}">log in</a></p>
+    {% endif %}
 </body>
 </html>
