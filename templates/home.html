@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
+  <div>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -23,7 +24,8 @@
     {% if session['user_id'] %}
         <p>You are logged in</p>
     {% else %}
-        <p>Please <a href="{{ url_for('login') }}">log in</a></p>
+        <p>Please <a href="{{ url_for('login_page') }}">log in</a></p>
     {% endif %}
+  </div>
 </body>
 </html>

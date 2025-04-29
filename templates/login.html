@@ -4,31 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Login</h1>
+  <div class="form-wrapper">
+      <h1>Login</h1>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }}">
-            {{ message }}
+      <br>
+
+      <form method="POST">
+          {{ form.hidden_tag() }}
+          <label for="username">Username: </label>
+          {{ form.username(size=32) }} <br><br>
+          <label for="password">Password: </label>
+          {{ form.password(size=32) }} <br><br>
+          <div class="button-container">
+            {{ form.submit() }}
           </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <br>
-    <br>
-
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <label for="username">Username: </label>
-        {{ form.username(size=32) }} <br><br>
-        <label for="password">Password: </label>
-        {{ form.password(size=32) }} <br><br>
-        {{ form.submit() }}
-    </form>
-    <p>Don't have an account? <a href="{{ url_for('register_page') }}">Register here</a></p>
+      </form>
+      <p>Don't have an account? <a href="{{ url_for('register_page') }}">Register here</a></p>
+  </div>
 </body>
 </html>
