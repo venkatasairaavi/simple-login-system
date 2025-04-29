@@ -58,11 +58,16 @@ def login_page():
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash('Email already registered. Please login or use another mail.', 'danger')
+            return render_template('register.html', form=form)
+        
         hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
         new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        flash('Registration Successful! Please login', 'success')
+        flash('Registration Successful! You can now log in.', 'success')
         return redirect(url_for('login_page'))
     return render_template('register.html', form=form)
 
